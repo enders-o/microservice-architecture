@@ -42,9 +42,9 @@ services:
     # Where our data will be persisted
     volumes:
     - my-db:/var/lib/mysql
-  reciever:
+  receiver:
     build:
-      context: ../Reciever
+      context: ../Receiver
     ports:
       - "8080:8080"
     depends_on:
