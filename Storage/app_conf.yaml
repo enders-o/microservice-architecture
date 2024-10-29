@@ -1,0 +1,11 @@
+version: 1
+datastore:
+  user: user 
+  password: ${DB_PASS} 
+  hostname: ${DB_HOST} 
+  port: 3306
+  db: events
+events:
+  hostname: ${KAFKA_HOST}
+  port: 9092
+  topic: events

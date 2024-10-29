@@ -1,0 +1,58 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: This API receives requests from users to 
+  version: "1.0.0"
+  title: Stats API
+  contact:
+    email: you@your-company.com
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /stats:
+    get:
+      summary: Gets the event stats
+      operationId: app.get_stats
+      description: Gets JoinQueue and AddFriend processsed statistics
+      responses:
+        '200':
+          description: Successfully returned a list of events
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/PartyStats'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas:
+    PartyStats:
+      required:
+        - num_joinq
+        - num_add
+        - max_age
+        - min_age
+      properties:
+        num_joinq:
+          type: integer
+          example: 500000
+        num_add:
+          type: integer
+          example: 20000
+        max_age:
+          type: integer
+          example: 400
+        min_age:
+          type: integer
+          example: 2

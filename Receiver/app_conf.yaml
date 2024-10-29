@@ -1,0 +1,9 @@
+version: 1
+join_queue:
+  url: http://localhost:8090/party/find
+add_friend:
+  url: http://localhost:8090/party/add
+events:
+  hostname: ${KAFKA_HOST}
+  port: 9092
+  topic: events

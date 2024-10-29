@@ -1,0 +1,156 @@
+openapi: 3.0.0
+info:
+  description: This API provides analyzer info
+  version: "1.0.0"
+  title: Analyzer API
+  contact:
+    email: mmulder10@bcit.ca
+paths:
+  /username:
+    get:
+      summary: gets a username from history
+      operationId: app.get_username
+      description: Gets username from the event store
+      parameters:
+      - name: index
+        in: query
+        description: Gets the username at the index in the event store
+        schema:
+          type: integer
+          example: 100 
+      responses:
+        '200':
+          description: Successfully returned join queue event event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JoinQueue'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /number_friends:
+    get:
+      summary: gets a user's number of friends from history
+      operationId: app.get_number_of_friends
+      description: Gets number of friends from the event store
+      parameters:
+        - name: index
+          in: query
+          description: Gets the number of friends at the index in the event store
+          schema:
+            type: integer
+            example: 100
+      responses:
+        '200':
+          description: Successfully returned a add friend event
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/AddFriend'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+
+  /stats:
+    get:
+      summary: gets the event stats
+      operationId: app.get_event_stats
+      description: Gets the stats of the history events
+      responses:
+        '200':
+          description: Successfully returned a heart rate event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stats'
+
+components:
+  schemas:
+    JoinQueue:
+      type: object
+      required:
+        - user_id
+        - username
+        - game
+        - account_age_days
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        username:
+          type: string
+          example: "Gamer1234"
+        game:
+          type: string
+          example: "Valorant"
+        account_age_days:
+          type: integer
+          format: int64
+          example: 365
+    AddFriend:
+      type: object
+      required:
+        - source_user_id
+        - source_number_of_friends
+        - friend_user_id
+        - friend_number_of_friends
+      properties:
+        source_user_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        source_number_of_friends:
+          type: integer
+          format: int32
+          example: 72 
+        friend_user_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        friend_number_of_friends:
+          type: integer
+          format: int32
+          example: 18 
+    Stats:
+      required:
+      - num_join_queue
+      - num_add_friend
+      properties:
+        num_join_queue:
+          type: integer
+          example: 100
+        num_add_friend:
+          type: integer
+          example: 100

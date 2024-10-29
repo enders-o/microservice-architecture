@@ -1,0 +1,105 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: This API receives requests from users to 
+  version: "1.0.0"
+  title: title
+  contact:
+    email: you@your-company.com
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /party/find:
+    post:
+      tags:
+        - admins
+      summary: joins the queue
+      operationId: app.join_queue
+      description: Join the queue to find a party for the specified game you are looking to play
+      responses:
+        '200':
+          description: Succesfully joined the queue
+        '400':
+          description: invalid input, object invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: User to be added to the queue
+  /party/add:
+    post:
+      tags:
+        - admins
+      summary: adds a friend
+      operationId: app.add_friend
+      description: Add a friend by user id
+      responses:
+        '200':
+          description: Succesfully added friend
+        '400':
+          description: invalid input, object invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Friend"
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - user_id
+        - username
+        - game
+        - account_age_days
+      properties:
+        trace_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        user_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        username:
+          type: string
+          example: "Gamer1234"
+        game:
+          type: string
+          example: "Valorant"
+        account_age_days:
+          type: integer
+          format: int64
+          example: 365
+    Friend:
+      type: object
+      required:
+        - source_user_id
+        - source_number_of_friends
+        - friend_user_id
+        - friend_number_of_friends
+      properties:
+        trace_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        source_user_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        source_number_of_friends:
+          type: integer
+          format: int32
+          example: 72 
+        friend_user_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        friend_number_of_friends:
+          type: integer
+          format: int32
+          example: 18 
