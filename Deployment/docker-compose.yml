@@ -45,3 +45,5 @@ services:
 # Names our volume
 volumes:
   my-db:
+env_file:
+  - path: ./.env
