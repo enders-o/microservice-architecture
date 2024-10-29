@@ -6,7 +6,7 @@ RUN apt-get update -y && \
 COPY ./requirements.txt /app/requirements.txt
 WORKDIR /app
 RUN python3 -m venv venv 
-RUN source venv/bin/activate
+RUN . venv/bin/activate
 RUN python3 -m pip install -r requirements.txt 
 COPY . /app
 ENTRYPOINT [ "python3" ]
