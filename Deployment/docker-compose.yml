@@ -42,6 +42,16 @@ services:
     # Where our data will be persisted
     volumes:
     - my-db:/var/lib/mysql
+  reciever:
+    build:
+      context: ../Reciever
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+    env_file:
+      - .env
+
 # Names our volume
 volumes:
   my-db:
