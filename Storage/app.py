@@ -30,7 +30,7 @@ with open('log_conf.yaml', 'r') as f:
     logging.config.dictConfig(log_config)
 
 logger.info(f"connecting to DB. Hostname:{app_config['datastore']['hostname']}, Port:{app_config['datastore']['port']}")
-DB_ENGINE = create_engine(f'mysql+pymysql://{app_config['datastore']['user']}:{app_config['datastore']['password']}@{app_config['datastore']['hostname']}:{app_config['datastore']['port']}/{app_config['datastore']['db']}')
+DB_ENGINE = create_engine(f"mysql+pymysql://{app_config['datastore']['user']}:{app_config['datastore']['password']}@{app_config['datastore']['hostname']}:{app_config['datastore']['port']}/{app_config['datastore']['db']}")
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
@@ -47,7 +47,7 @@ def process_messages():
     consumer = topic.get_simple_consumer(consumer_group=b'event_group',
                                         reset_offset_on_start=False,
                                         auto_offset_reset=OffsetType.LATEST)
-    logger.info(f"Connected to Kafka topic: {app_config["events"]["topic"]}")
+    logger.info(f"Connected to Kafka topic: {app_config['events']['topic']}")
 # This is blocking - it will wait for a new message
     for msg in consumer:
         msg_str = msg.value.decode('utf-8')
@@ -66,7 +66,7 @@ def process_messages():
             session.add(join)
             session.commit()
             session.close()
-            logger.debug(f'Stored event join_queue request with a trace id of {payload['trace_id']}')
+            logger.debug(f"Stored event join_queue request with a trace id of {payload['trace_id']}")
         elif msg["type"] == "add_friend": # Change this to your event type
             session = DB_SESSION()
             add = AddFriend(payload['trace_id'],
@@ -77,7 +77,7 @@ def process_messages():
             session.add(add)
             session.commit()
             session.close()
-            logger.debug(f'Stored event add_friend request with a trace id of {payload['trace_id']}')
+            logger.debug(f"Stored event add_friend request with a trace id of {payload['trace_id']}")
         #logger.info()
         consumer.commit_offsets()
 # Store the event2 (i.e., the payload) to the DB
