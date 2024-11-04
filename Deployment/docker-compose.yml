@@ -49,8 +49,6 @@ services:
       - "8080:8080"
     depends_on:
       - kafka
-    env_file:
-      - .env
   storage:
     build:
       context: ../Storage
@@ -59,8 +57,6 @@ services:
     depends_on:
       - kafka
       - db
-    env_file:
-      - .env
   processing:
     build:
       context: ../Processing
