@@ -43,7 +43,7 @@ def join_queue(body):
 def add_friend(body):
     trace_id = uuid.uuid4()
     body['trace_id'] = str(trace_id)
-    client = KafkaClient(hosts=f'{app_config['events']['hostname']}:{app_config['events']['port']}')
+    client = KafkaClient(hosts=f"{app_config['events']['hostname']}:{app_config['events']['port']}")
     topic = client.topics[str.encode(app_config['events']['topic'])]
     producer = topic.get_sync_producer()
     msg = { "type": "add_friend",
