@@ -49,9 +49,6 @@ services:
       - "8080:8080"
     depends_on:
       - kafka
-    environment:
-      - KAFKA_BROKER=kafka:9092  # Use the service name instead of localhost
-      - DB_HOST=db     
     env_file:
       - .env
   storage:
@@ -61,8 +58,16 @@ services:
       - "8090:8090"
     depends_on:
       - kafka
+      - db
     env_file:
       - .env
+  processing:
+    build:
+      context: ../Processing
+    ports:
+      - "8100:8100"
+    depends_on:
+      - storage
 
 # Names our volume
 volumes:
