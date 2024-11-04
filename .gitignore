@@ -3,3 +3,4 @@ app.log
 .env
 data.json
 venv
+app_conf.yaml
