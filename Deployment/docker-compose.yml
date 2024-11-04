@@ -64,6 +64,14 @@ services:
       - "8100:8100"
     depends_on:
       - storage
+  analyzer:
+    build:
+      context: ../Analyzer
+    ports:
+      - "8110:8110"
+    depends_on:
+      - kafka
+      - storage
 
 # Names our volume
 volumes:
