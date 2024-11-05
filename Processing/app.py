@@ -2,6 +2,8 @@ import connexion
 #from connexion import NoContent
 # had to pip install apscheduler
 from apscheduler.schedulers.background  import BackgroundScheduler
+from connexion.middleware import MiddlewarePosition
+from starlette.middleware.cors import CORSMiddleware
 
 import requests
 import json
@@ -94,3 +96,11 @@ app.add_api("openapi.yaml",
 if __name__ == "__main__":
     init_scheduler()
     app.run(port=8100, host="0.0.0.0")
+    app.add_middleware(
+            CORSMiddleware,
+            position=MiddlewarePosition.BEFORE_EXCEPTION,
+            allow_origins=["*"],
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+            )
