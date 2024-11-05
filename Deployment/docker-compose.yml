@@ -47,6 +47,8 @@ services:
       context: ../Receiver
     ports:
       - "8080:8080"
+    environment:
+      - KAFKA_BROKER=kafka:9092  
     depends_on:
       - kafka
   storage:
@@ -54,6 +56,9 @@ services:
       context: ../Storage
     ports:
       - "8090:8090"
+    environment:
+      - KAFKA_BROKER=kafka:9092  
+      - DB_HOST=db  
     depends_on:
       - kafka
       - db
@@ -62,6 +67,8 @@ services:
       context: ../Processing
     ports:
       - "8100:8100"
+    environment:
+      - STORAGE_HOST=storage  
     depends_on:
       - storage
   analyzer:
@@ -69,6 +76,9 @@ services:
       context: ../Analyzer
     ports:
       - "8110:8110"
+    environment:
+      - KAFKA_BROKER=kafka:9092  
+      - STORAGE_HOST=storage  
     depends_on:
       - kafka
       - storage

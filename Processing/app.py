@@ -44,36 +44,41 @@ def query(url) -> list:
 
 def populate_stats():
     """ Periodically update stats """
-    logger.info("Start Periodic Processing")
-    if os.path.isfile(app_config['datastore']['filename']):
-        with open(app_config['datastore']['filename'],"r") as outfile:
-            # turn json string into python dict
-            current_stats = json.loads(outfile.read())
-    else:
-        current_stats = {
-                "num_joinq": 0,
-                "num_add": 0,
-                "max_age": 0,
-                "min_age": 9999,
-                "last_updated": "1970-01-01 00:00:00.000"
-                }
-    current_datetime = datetime.datetime.now()
-    find = query(f"{app_config['eventstore']['url']}/party/find?start_timestamp={current_stats['last_updated']}&end_timestamp={current_datetime}")
-    add  = query(f"{app_config['eventstore']['url']}/party/add?start_timestamp={current_stats['last_updated']}&end_timestamp={current_datetime}")
-    if find:
-        current_stats['num_joinq'] +=  len(find)
-        if current_stats['max_age'] < max(find,key = lambda x:x['account_age_days'])['account_age_days']:
-            current_stats['max_age'] = max(find,key = lambda x:x['account_age_days'])['account_age_days']
-        if current_stats['min_age'] > min(find,key = lambda x:x['account_age_days'])['account_age_days']:
-            current_stats['min_age'] = min(find,key = lambda x:x['account_age_days'])['account_age_days']
-    if add:
-        current_stats['num_add'] +=  len(find)
-    current_stats['last_updated'] = current_datetime
-    with open(app_config['datastore']['filename'],"w") as outfile:
-        outfile.write(json.dumps(current_stats, indent=4,default=str))
-    #current_stats['last_updated'] = datetime.datetime.strptime(current_stats['last_updated'], "%Y-%m-%d %H:%M:%S.%f")
-    logger.debug(f'Updated values {current_stats}')
-    logger.info('End Periodic Processing')
+    try:
+        logger.info("Start Periodic Processing")
+        if os.path.isfile(app_config['datastore']['filename']):
+            with open(app_config['datastore']['filename'],"r") as outfile:
+                # turn json string into python dict
+                current_stats = json.loads(outfile.read())
+        else:
+            current_stats = {
+                    "num_joinq": 0,
+                    "num_add": 0,
+                    "max_age": 0,
+                    "min_age": 9999,
+                    "last_updated": "1970-01-01 00:00:00.000"
+                    }
+        logger.info(current_stats)
+        current_datetime = datetime.datetime.now()
+        find = query(f"{app_config['eventstore']['url']}/party/find?start_timestamp={current_stats['last_updated']}&end_timestamp={current_datetime}")
+        add  = query(f"{app_config['eventstore']['url']}/party/add?start_timestamp={current_stats['last_updated']}&end_timestamp={current_datetime}")
+        if find:
+            current_stats['num_joinq'] +=  len(find)
+            if current_stats['max_age'] < max(find,key = lambda x:x['account_age_days'])['account_age_days']:
+                current_stats['max_age'] = max(find,key = lambda x:x['account_age_days'])['account_age_days']
+            if current_stats['min_age'] > min(find,key = lambda x:x['account_age_days'])['account_age_days']:
+                current_stats['min_age'] = min(find,key = lambda x:x['account_age_days'])['account_age_days']
+        if add:
+            current_stats['num_add'] +=  len(add)
+        current_stats['last_updated'] = current_datetime
+        with open(app_config['datastore']['filename'],"w") as outfile:
+            outfile.write(json.dumps(current_stats, indent=4,default=str))
+        #current_stats['last_updated'] = datetime.datetime.strptime(current_stats['last_updated'], "%Y-%m-%d %H:%M:%S.%f")
+        logger.debug(f'Updated values {current_stats}')
+        logger.info('End Periodic Processing')
+
+    except Exception as e:
+        logger.error(f"Error in populate_stats: {str(e)}", exc_info=True)
 
 def init_scheduler():
     sched = BackgroundScheduler(daemon=True)
