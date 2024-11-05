@@ -8,7 +8,7 @@ export default function AppStats() {
 
 	const getStats = () => {
 	
-        fetch(`http://<Cloud DNS>:8100/stats`)
+        fetch(`http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com:8100/stats`)
             .then(res => res.json())
             .then((result)=>{
 				console.log("Received Stats")
@@ -35,21 +35,18 @@ export default function AppStats() {
                 <table className={"StatsTable"}>
 					<tbody>
 						<tr>
-							<th>Blood Pressure</th>
-							<th>Heart Rate</th>
+							<th>Number of Add Friend Requests</th>
+							<th>Number of Users Joined Queue</th>
 						</tr>
 						<tr>
-							<td># BP: {stats['num_bp_readings']}</td>
-							<td># HR: {stats['num_hr_readings']}</td>
+							<td># Add Friend: {stats['num_add']}</td>
+							<td># Join Queue: {stats['num_joinq']}</td>
 						</tr>
 						<tr>
-							<td colspan="2">Max BP Systolic: {stats['max_bp_sys_reading']}</td>
+							<td colspan="2">Max Age User: {stats['max_age']}</td>
 						</tr>
 						<tr>
-							<td colspan="2">Max BR Diastolic: {stats['max_bp_dia_reading']}</td>
-						</tr>
-						<tr>
-							<td colspan="2">Max HR: {stats['max_bp_sys_reading']}</td>
+							<td colspan="2">Min Age User: {stats['min_age']}</td>
 						</tr>
 					</tbody>
                 </table>

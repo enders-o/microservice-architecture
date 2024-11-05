@@ -6,10 +6,10 @@ import AppStats from './components/AppStats'
 
 function App() {
 
-    const endpoints = ["blood_pressure", "heart_rate"]
+    const endpoints = ["username", "number_friends","stats"]
 
     const rendered_endpoints = endpoints.map((endpoint) => {
-        return <EndpointAnalyzer key={endpoint} endpoint={endpoint}/>
+        return <EndpointAudit key={endpoint} endpoint={endpoint}/>
     })
 
     return (
