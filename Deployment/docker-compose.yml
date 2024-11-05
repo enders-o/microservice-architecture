@@ -72,6 +72,14 @@ services:
     depends_on:
       - kafka
       - storage
+  dashboard:
+    build: 
+      context: ../Dashboard
+    ports:
+      - "3000:3000"
+    depends_on:
+      - processing
+      - analyzer
 
 # Names our volume
 volumes:
