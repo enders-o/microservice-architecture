@@ -27,7 +27,7 @@ def get_stats():
         with open(app_config['datastore']['filename'],"r") as outfile:
             # turn json string into python dict
             current_stats = json.loads(outfile.read())
-            current_stats.pop('last_updated')
+            #current_stats.pop('last_updated')
     else:
         logger.error('Statistics does not exist')
         return 404
