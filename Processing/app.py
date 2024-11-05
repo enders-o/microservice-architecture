@@ -73,7 +73,7 @@ def populate_stats():
         if add:
             current_stats['num_add'] +=  len(add)
         current_stats['last_updated'] = current_datetime
-        current_stats['last_updated'] = datetime.datetime.strptime(current_stats['last_updated'], "%Y-%m-%d %H:%M:%S.%f")
+        #current_stats['last_updated'] = datetime.datetime.strptime(current_stats['last_updated'], "%Y-%m-%d %H:%M:%S.%f")
         with open(app_config['datastore']['filename'],"w") as outfile:
             outfile.write(json.dumps(current_stats, indent=4,default=str))
         logger.debug(f'Updated values {current_stats}')
