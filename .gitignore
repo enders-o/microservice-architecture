@@ -5,5 +5,4 @@ data.json
 venv
 app_conf.yaml
 Dashboard/src/.DS_Store
-Dashboard/package-lock.json
 Dashboard/node_modules
