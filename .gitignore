@@ -4,5 +4,5 @@ app.log
 data.json
 venv
 app_conf.yaml
-Dashboard/src/.DS_Store
-Dashboard/node_modules
+node_modules
+.DS_Store
