@@ -6,11 +6,13 @@ export default function EndpointAnalyzer(props) {
     const [log, setLog] = useState(null);
     const [error, setError] = useState(null)
 	const rand_val = Math.floor(Math.random() * 100); // Get a random event from the event store
+    const [index, setIndex] = useState(null);
 
     const getAnalyzer = () => {
         fetch(`http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com:8110/${props.endpoint}?index=${rand_val}`)
             .then(res => res.json())
             .then((result)=>{
+                setIndex(rand_val);
 				console.log("Received Analyzer Results for " + props.endpoint)
                 setLog(result);
                 setIsLoaded(true);
@@ -32,7 +34,7 @@ export default function EndpointAnalyzer(props) {
         
         return (
             <div>
-                <h3>{props.endpoint}-{rand_val}</h3>
+                <h3>{props.endpoint}-{index}</h3>
                 {JSON.stringify(log)}
             </div>
         )
