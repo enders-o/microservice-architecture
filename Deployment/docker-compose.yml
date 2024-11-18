@@ -66,6 +66,7 @@ services:
       - "8090:8090"
     depends_on:
       db:
+        condition: service_started
       kafka:
         condition: service_healthy
   processing:
