@@ -13,6 +13,7 @@ import uuid
 
 from pykafka import KafkaClient
 
+
 logger = logging.getLogger('basicLogger')
 
 # CONFIFUGRATION FILES
@@ -24,13 +25,16 @@ with open('log_conf.yaml', 'r') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
+
+# KAFKA CLIENT STARTUP
+client = KafkaClient(hosts=f"{app_config['events']['hostname']}:{app_config['events']['port']}")
+topic = client.topics[str.encode(app_config['events']['topic'])]
+producer = topic.get_sync_producer()
+
 # POST REQUESTS
 def join_queue(body):
     trace_id = uuid.uuid4()
     body['trace_id'] = str(trace_id)
-    client = KafkaClient(hosts=f"{app_config['events']['hostname']}:{app_config['events']['port']}")
-    topic = client.topics[str.encode(app_config['events']['topic'])]
-    producer = topic.get_sync_producer()
     msg = { "type": "join_queue",
             "datetime" : datetime.datetime.now().strftime( "%Y-%m-%dT%H:%M:%S"),
             "payload": body
@@ -43,9 +47,6 @@ def join_queue(body):
 def add_friend(body):
     trace_id = uuid.uuid4()
     body['trace_id'] = str(trace_id)
-    client = KafkaClient(hosts=f"{app_config['events']['hostname']}:{app_config['events']['port']}")
-    topic = client.topics[str.encode(app_config['events']['topic'])]
-    producer = topic.get_sync_producer()
     msg = { "type": "add_friend",
             "datetime" :datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
             "payload": body
