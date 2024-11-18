@@ -28,6 +28,11 @@ services:
       - /home/ubuntu/kafka:/kafka/kafka-logs
     depends_on:
       - "zookeeper"
+    healthcheck:
+      test: curl http://localhost:9092 || exit 1
+      interval: 15s
+      timeout: 10s
+      retries: 3
   db:
     image: mysql:5.7
     restart: always
@@ -60,8 +65,9 @@ services:
     ports:
       - "8090:8090"
     depends_on:
-      - kafka
       - db
+      kafka:
+        condition: service_healthy
   processing:
     build:
       context: ../Processing
