@@ -60,6 +60,10 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+    environment:
+      - TARGET_ENV=test
+    volumes:
+      - /home/ubuntu/config/receiver:/config
   storage:
     build:
       context: ../Storage
@@ -70,6 +74,10 @@ services:
         condition: service_started
       kafka:
         condition: service_healthy
+    environment:
+      - TARGET_ENV=test
+    volumes:
+      - /home/ubuntu/config/storage:/config
   processing:
     build:
       context: ../Processing
@@ -77,6 +85,8 @@ services:
       - "8100:8100"
     depends_on:
       - storage
+    volumes:
+      - /home/ubuntu/config/processing:/config
   analyzer:
     build:
       context: ../Analyzer
@@ -85,6 +95,10 @@ services:
     depends_on:
       - kafka
       - storage
+    environment:
+      - TARGET_ENV=test
+    volumes:
+      - /home/ubuntu/config/analyzer:/config
   dashboard:
     build: 
       context: ../Dashboard
