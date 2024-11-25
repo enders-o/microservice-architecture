@@ -10,7 +10,6 @@ import logging.config
 
 from pykafka import KafkaClient
 
-logger = logging.getLogger('basicLogger')
 
 # CONFIFUGRATION FILES
 import os

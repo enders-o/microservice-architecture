@@ -13,7 +13,6 @@ import logging
 import logging.config
 import datetime
 
-logger = logging.getLogger('basicLogger')
 
 import os
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
