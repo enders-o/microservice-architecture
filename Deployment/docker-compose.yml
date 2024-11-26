@@ -87,6 +87,8 @@ services:
       - "8100:8100"
     depends_on:
       - storage
+    environment:
+      - TARGET_ENV=test
     volumes:
       - /home/ubuntu/config/processing:/config
       - /home/ubuntu/logs:/logs
