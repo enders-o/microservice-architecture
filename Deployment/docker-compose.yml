@@ -65,6 +65,7 @@ services:
     volumes:
       - /home/ubuntu/config/receiver:/config
       - /home/ubuntu/logs:/logs
+    user: "1000:1000"
   storage:
     build:
       context: ../Storage
@@ -80,6 +81,7 @@ services:
     volumes:
       - /home/ubuntu/config/storage:/config
       - /home/ubuntu/logs:/logs
+    user: "1000:1000"
   processing:
     build:
       context: ../Processing
@@ -90,6 +92,8 @@ services:
     volumes:
       - /home/ubuntu/config/processing:/config
       - /home/ubuntu/logs:/logs
+      - processing-db:/data
+    user: "1000:1000"
   analyzer:
     build:
       context: ../Analyzer
@@ -103,6 +107,7 @@ services:
     volumes:
       - /home/ubuntu/config/analyzer:/config
       - /home/ubuntu/logs:/logs
+    user: "1000:1000"
   dashboard:
     build: 
       context: ../Dashboard
@@ -115,3 +120,4 @@ services:
 # Names our volume
 volumes:
   my-db:
+  processing-db:
