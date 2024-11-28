@@ -114,7 +114,7 @@ services:
       - "8110"
     networks:
       - "api.network"
-  dashboard:
+  dashboard-ui:
     build: 
       context: ../Dashboard
     depends_on:
