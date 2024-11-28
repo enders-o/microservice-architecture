@@ -55,8 +55,6 @@ services:
   receiver:
     build:
       context: ../Receiver
-    ports:
-      - "8080:8080"
     depends_on:
       kafka:
         condition: service_healthy
@@ -72,8 +70,6 @@ services:
   storage:
     build:
       context: ../Storage
-    ports:
-      - "8090:8090"
     depends_on:
       db:
         condition: service_started
@@ -91,8 +87,6 @@ services:
   processing:
     build:
       context: ../Processing
-    ports:
-      - "8100:8100"
     depends_on:
       - storage
     environment:
@@ -108,8 +102,6 @@ services:
   analyzer:
     build:
       context: ../Analyzer
-    ports:
-      - "8110:8110"
     depends_on:
       - kafka
       - storage
@@ -125,8 +117,6 @@ services:
   dashboard:
     build: 
       context: ../Dashboard
-    ports:
-      - "3000:3000"
     depends_on:
       - processing
       - analyzer
