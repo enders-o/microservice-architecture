@@ -119,7 +119,7 @@ def get_event_stats():
 
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("openapi.yaml",
-            base_path="/analzyer",
+            base_path="/analyzer",
             strict_validation=True,
             validate_responses=True)
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
