@@ -10,7 +10,7 @@ export default function EndpointAnalyzer(props) {
 
     const getAnalyzer = () => {
         setIndex(rand_val);
-        fetch(`http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com:8110/${props.endpoint}?index=${rand_val}`)
+        fetch(`http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/analyzer/${props.endpoint}?index=${rand_val}`)
             .then(res => res.json())
             .then((result)=>{
 				console.log("Received Analyzer Results for " + props.endpoint)
