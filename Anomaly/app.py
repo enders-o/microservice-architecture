@@ -32,8 +32,8 @@ with open(log_conf_file, 'r') as f:
 
 logger.info("App Conf File: %s" % app_conf_file)
 logger.info("Log Conf File: %s" % log_conf_file)
-logger.info(f"Threshold for account age : ({app_config["threshold"]["find_low"]},{app_config["threshold"]["find_high"]})")
-logger.info(f"Threshold for source number friend:  ({app_config["threshold"]["add_low"]},{app_config["threshold"]["add_high"]})")
+logger.info(f'Threshold for account age : ({app_config["threshold"]["find_low"]},{app_config["threshold"]["find_high"]})')
+logger.info(f'Threshold for source number friend:  ({app_config["threshold"]["add_low"]},{app_config["threshold"]["add_high"]})')
 
 # GET REQUESTS
 def get_find():
