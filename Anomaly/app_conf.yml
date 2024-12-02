@@ -1,0 +1,12 @@
+version: 1
+datastore:
+  filename: data.json
+events:
+  hostname: kafka 
+  port: 9092
+  topic: events
+threshold:
+  find_low: 0
+  find_high: 9999
+  add_low: 0
+  add_high: 999

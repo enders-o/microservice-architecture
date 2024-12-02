@@ -114,6 +114,17 @@ services:
       - "8110"
     networks:
       - "api.network"
+  anomaly:
+    build:
+      context: ../Anomaly
+    depends_on:
+      - kafka
+    environment:
+      - TARGET_ENV=test
+    ports:
+      - "8120"
+    networks:
+      - "api.network"
   dashboard-ui:
     build: 
       context: ../Dashboard

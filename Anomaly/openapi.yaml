@@ -1,0 +1,100 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: This API receives requests from users to 
+  version: "1.0.0"
+  title: Stats API
+  contact:
+    email: you@your-company.com
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /find:
+    get:
+      summary: Gets the event stats
+      operationId: app.get_find
+      description: Gets a list of anomaly events for the find event
+      responses:
+        '200':
+          description: Successfully returned a list of anomaly events for find
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/AnomalyEvent'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                   type: string
+  /add:
+    get:
+      summary: Gets the event stats
+      operationId: app.get_add
+      description: Gets anomaly events for the add event
+      responses:
+        '200':
+          description: Successfully returned a list of anomaly events for add
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/AnomalyEvent'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+   schemas:
+    AnomalyEvent:
+      type: object
+      required:
+        - event_id
+        - trace_id
+        - event_type
+        - anomaly_type
+        - description
+        - timestamp
+      properties:
+        event_id:
+          type: string
+          format: uuid
+          description: Unique identifier for the anomaly event
+          example: "dd331aeb-cb56-417a-953f-0b6462ddc2b4"
+        trace_id:
+          type: string
+          description: Identifier for tracing purposes
+          example: "dd331aeb-cb56-417a-953f-0b6462ddc2b4"
+        event_type:
+          type: string
+          description: Type of event being monitored (e.g., BP, HR)
+          enum: ["Find", "Add"]
+          example: "Find"
+        anomaly_type:
+          type: string
+          description: Classification of the anomaly
+          enum: ["Too High", "Too Low"]
+          example: "Too High"
+        description:
+          type: string
+          description: Detailed description of the anomaly
+          example: "The value is too high (BP of 200 is greater than threshold of 140)"
+        timestamp:
+          type: string
+          format: date-time
+          description: Time when the anomaly was detected
+          example: "2024-11-14 11:22:33.0000"
