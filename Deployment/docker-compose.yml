@@ -122,7 +122,7 @@ services:
     environment:
       - TARGET_ENV=test
     volumes:
-      - /home/ubuntu/config/processing:/config
+      - /home/ubuntu/config/anomaly:/config
       - /home/ubuntu/logs:/logs
     ports:
       - "8120"
