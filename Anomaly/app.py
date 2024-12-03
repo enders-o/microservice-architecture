@@ -88,7 +88,7 @@ def detect_anomalies():
                 if payload["account_age_days"] > app_config["threshold"]["find_high"]:
                     store_anomaly(payload, 'find', True,app_config["threshold"]["find_high"], payload['account_age_days'])
                 if payload["account_age_days"] < app_config["threshold"]["find_low"]:
-                    store_anomaly(payload, 'find', False,app_config["threshold"]["find_low"],payload['account_age_days']) )
+                    store_anomaly(payload, 'find', False,app_config["threshold"]["find_low"],payload['account_age_days'])
             elif msg["type"] == "add_friend": 
                 if payload["source_number_of_friends"] > app_config["threshold"]["add_high"]:
                     store_anomaly(payload, 'add', True, app_config["threshold"]["add_high"], payload['source_number_of_friends'])
