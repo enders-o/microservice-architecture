@@ -81,8 +81,8 @@ components:
           example: "dd331aeb-cb56-417a-953f-0b6462ddc2b4"
         event_type:
           type: string
-          description: Type of event being monitored (e.g., BP, HR)
-          enum: ["Find", "Add"]
+          description: Type of event being monitored 
+          enum: ["find", "add"]
           example: "Find"
         anomaly_type:
           type: string
