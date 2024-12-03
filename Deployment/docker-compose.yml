@@ -124,6 +124,7 @@ services:
     volumes:
       - /home/ubuntu/config/anomaly:/config
       - /home/ubuntu/logs:/logs
+      - anomaly-db:/data
     ports:
       - "8120"
     networks:
