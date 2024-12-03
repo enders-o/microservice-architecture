@@ -3,6 +3,7 @@ import './App.css';
 
 import EndpointAudit from './components/EndpointAnalyzer'
 import AppStats from './components/AppStats'
+import AnomalyStats from './components/AnomalyStats'
 
 function App() {
 
