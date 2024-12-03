@@ -6,11 +6,14 @@ import yaml
 import logging
 import logging.config
 import json
+import uuid
+from datetime import datetime
 
 from pykafka import KafkaClient  
 from pykafka import KafkaClient  
 from pykafka.common import OffsetType 
 from threading import Thread 
+
 
 import os
 
@@ -43,9 +46,27 @@ def get_find():
 def get_add():
     return [], 200
 
-def store_anomaly(payload: dict):
-    logger.info(f'{payload} added to database')
-    return
+def store_anomaly(payload: dict, event_type: str, is_high: bool, threshold: int):
+    event_id = str(uuid.uuid4())
+    logger.debug(f"Detected anomaly {payload['trace_id']}")
+    anomaly = {
+            "event_id": event_id,
+            "trace_id": payload["trace_id"],
+            "event_type": event_type,
+            "anomaly_type": "Too High" if is_high else "Too Low",
+            "description": f"The value is {'too high' if is_high else 'too low'} ({event_type} of {payload['value']} is {'greater' if is_high else 'less'} than threshold of {threshold})",
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+    try:
+        with open(app_config['datastore']['filename'], "r") as infile:
+            data = json.load(infile)
+    except (FileNotFoundError, json.JSONDecodeError):
+        data = []
+    data.append(anomaly)
+    with open(app_config['datastore']['filename'], "w") as outfile:
+            json.dump(data, outfile, indent=2)
+    logger.info(f"Stored anomaly {event_id} for trace {payload['trace_id']}")
+    return event_id
 
 # ANOMALY DETECTION
 def detect_anomalies():
@@ -64,14 +85,15 @@ def detect_anomalies():
             logger.info("Message: %s" % msg)
             payload = msg["payload"]
             if msg["type"] == "join_queue": 
-                if payload["account_age_days"] > app_config["threshold"]["find_high"] or payload["account_age_days"] < app_config["threshold"]["find_low"]:
-                    store_anomaly(payload)
-                    logger.debug(f"Detected anomaly {payload['trace_id']}")
+                if payload["account_age_days"] > app_config["threshold"]["find_high"]:
+                    store_anomaly(payload, 'find', True,app_config["threshold"]["find_high"])
+                if payload["account_age_days"] < app_config["threshold"]["find_low"]:
+                    store_anomaly(payload, 'find', False,app_config["threshold"]["find_low"]))
             elif msg["type"] == "add_friend": 
-                if payload["source_number_of_friends"] > app_config["threshold"]["add_high"] or payload["account_age_days"] < app_config["threshold"]["add_low"]:
-                    store_anomaly(payload)
-                    logger.debug(f"Detected anomaly {payload['trace_id']}")
-     
+                if payload["source_number_of_friends"] > app_config["threshold"]["add_high"]:
+                    store_anomaly(payload, 'add', True, app_config["threshold"]["add_high"]))
+                if payload["account_age_days"] < app_config["threshold"]["add_low"]:
+                    store_anomaly(payload, 'add', False, app_config["threshold"]["add_low"]))
     consumer.commit_offsets()
 
 app = connexion.FlaskApp(__name__, specification_dir='')
