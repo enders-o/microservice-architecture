@@ -46,7 +46,7 @@ def get_find():
 def get_add():
     return [], 200
 
-def store_anomaly(payload: dict, event_type: str, is_high: bool, threshold: int):
+def store_anomaly(payload: dict, event_type: str, is_high: bool, threshold: int, value: int):
     event_id = str(uuid.uuid4())
     logger.debug(f"Detected anomaly {payload['trace_id']}")
     anomaly = {
@@ -54,7 +54,7 @@ def store_anomaly(payload: dict, event_type: str, is_high: bool, threshold: int)
             "trace_id": payload["trace_id"],
             "event_type": event_type,
             "anomaly_type": "Too High" if is_high else "Too Low",
-            "description": f"The value is {'too high' if is_high else 'too low'} ({event_type} of {payload['value']} is {'greater' if is_high else 'less'} than threshold of {threshold})",
+            "description": f"The value is {'too high' if is_high else 'too low'} ({event_type} of {value} is {'greater' if is_high else 'less'} than threshold of {threshold})",
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
     try:
@@ -86,14 +86,14 @@ def detect_anomalies():
             payload = msg["payload"]
             if msg["type"] == "join_queue": 
                 if payload["account_age_days"] > app_config["threshold"]["find_high"]:
-                    store_anomaly(payload, 'find', True,app_config["threshold"]["find_high"])
+                    store_anomaly(payload, 'find', True,app_config["threshold"]["find_high"], payload['account_age_days'])
                 if payload["account_age_days"] < app_config["threshold"]["find_low"]:
-                    store_anomaly(payload, 'find', False,app_config["threshold"]["find_low"])
+                    store_anomaly(payload, 'find', False,app_config["threshold"]["find_low"],payload['account_age_days']) )
             elif msg["type"] == "add_friend": 
                 if payload["source_number_of_friends"] > app_config["threshold"]["add_high"]:
-                    store_anomaly(payload, 'add', True, app_config["threshold"]["add_high"])
+                    store_anomaly(payload, 'add', True, app_config["threshold"]["add_high"], payload['source_number_of_friends'])
                 if payload["account_age_days"] < app_config["threshold"]["add_low"]:
-                    store_anomaly(payload, 'add', False, app_config["threshold"]["add_low"])
+                    store_anomaly(payload, 'add', False, app_config["threshold"]["add_low"],payload['source_number_of_friends'])
     consumer.commit_offsets()
 
 app = connexion.FlaskApp(__name__, specification_dir='')
