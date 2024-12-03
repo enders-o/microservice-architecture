@@ -40,11 +40,41 @@ logger.info(f'Threshold for source number friend:  ({app_config["threshold"]["ad
 
 # GET REQUESTS
 def get_find():
-    return [], 200
+    try:
+        with open(app_config['datastore']['filename'], 'r') as infile:
+            anomalies = json.load(infile)
+    except (FileNotFoundError, json.JSONDecodeError):
+        logger.warning("No anomalies file found or file is empty")
+        return [], 200
+        
+    anomalies = [a for a in anomalies if a['event_type'] == 'find']
+        
+    # Sort by timestamp descending (newest first)
+    anomalies.sort(
+        key=lambda x: datetime.strptime(x['timestamp'], '%Y-%m-%d %H:%M:%S'),
+        reverse=True
+    )
+    
+    return anomalies, 200
 
 
 def get_add():
-    return [], 200
+    try:
+        with open(app_config['datastore']['filename'], 'r') as infile:
+            anomalies = json.load(infile)
+    except (FileNotFoundError, json.JSONDecodeError):
+        logger.warning("No anomalies file found or file is empty")
+        return [], 200
+        
+    anomalies = [a for a in anomalies if a['event_type'] == 'add']
+        
+    # Sort by timestamp descending (newest first)
+    anomalies.sort(
+        key=lambda x: datetime.strptime(x['timestamp'], '%Y-%m-%d %H:%M:%S'),
+        reverse=True
+    )
+    
+    return anomalies, 200
 
 def store_anomaly(payload: dict, event_type: str, is_high: bool, threshold: int, value: int):
     event_id = str(uuid.uuid4())
