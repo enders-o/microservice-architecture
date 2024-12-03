@@ -55,7 +55,7 @@ def get_find():
         reverse=True
     )
     
-    return anomalies, 200
+    return json.dumps(anomalies), 200
 
 
 def get_add():
@@ -74,7 +74,7 @@ def get_add():
         reverse=True
     )
     
-    return anomalies, 200
+    return json.dumps(anomalies), 200
 
 def store_anomaly(payload: dict, event_type: str, is_high: bool, threshold: int, value: int):
     event_id = str(uuid.uuid4())
