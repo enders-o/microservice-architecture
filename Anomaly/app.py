@@ -55,10 +55,7 @@ def get_find():
         reverse=True
     )
     
-    response_object = {
-        "anomalies": anomalies
-    }
-    return json.dumps(response_object), 200
+    return json.dumps(anomalies), 200
 
 
 def get_add():
@@ -76,10 +73,7 @@ def get_add():
         key=lambda x: datetime.strptime(x['timestamp'], '%Y-%m-%d %H:%M:%S'),
         reverse=True
     )
-    response_object = {
-        "anomalies": anomalies
-    }
-    return json.dumps(response_object), 200
+    return json.dumps(anomalies), 200
 
 def store_anomaly(payload: dict, event_type: str, is_high: bool, threshold: int, value: int):
     event_id = str(uuid.uuid4())

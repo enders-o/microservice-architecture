@@ -23,7 +23,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                type: array
                 items:
                   $ref: '#/components/schemas/AnomalyEvent'
         '400':
@@ -31,7 +31,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                type: array
                 properties:
                   message:
                    type: string
