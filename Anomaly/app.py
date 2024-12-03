@@ -55,7 +55,7 @@ def get_find():
         reverse=True
     )
     
-    return json.dumps(anomalies), 200
+    return anomalies, 200
 
 
 def get_add():
@@ -73,7 +73,7 @@ def get_add():
         key=lambda x: datetime.strptime(x['timestamp'], '%Y-%m-%d %H:%M:%S'),
         reverse=True
     )
-    return json.dumps(anomalies), 200
+    return anomalies, 200
 
 def store_anomaly(payload: dict, event_type: str, is_high: bool, threshold: int, value: int):
     event_id = str(uuid.uuid4())
