@@ -19,6 +19,8 @@ function App() {
                 <AppStats/>
                 <h1>Analyzer Endpoints</h1>
                 {rendered_endpoints}
+                <AnomalyStats eventType="find"/>
+                <AnomalyStats eventType="add"/>
             </div>
         </div>
     );
