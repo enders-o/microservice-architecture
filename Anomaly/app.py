@@ -45,7 +45,7 @@ def get_find():
             anomalies = json.load(infile)
     except (FileNotFoundError, json.JSONDecodeError):
         logger.warning("No anomalies file found or file is empty")
-        return [], 200
+        return json.dumps([]), 200
         
     anomalies = [a for a in anomalies if a['event_type'] == 'find']
         
@@ -55,7 +55,10 @@ def get_find():
         reverse=True
     )
     
-    return json.dumps(anomalies), 200
+    response_object = {
+        "anomalies": anomalies
+    }
+    return json.dumps(response_object), 200
 
 
 def get_add():
@@ -64,7 +67,7 @@ def get_add():
             anomalies = json.load(infile)
     except (FileNotFoundError, json.JSONDecodeError):
         logger.warning("No anomalies file found or file is empty")
-        return [], 200
+        return json.dumps([]), 200
         
     anomalies = [a for a in anomalies if a['event_type'] == 'add']
         
@@ -73,8 +76,10 @@ def get_add():
         key=lambda x: datetime.strptime(x['timestamp'], '%Y-%m-%d %H:%M:%S'),
         reverse=True
     )
-    
-    return json.dumps(anomalies), 200
+    response_object = {
+        "anomalies": anomalies
+    }
+    return json.dumps(response_object), 200
 
 def store_anomaly(payload: dict, event_type: str, is_high: bool, threshold: int, value: int):
     event_id = str(uuid.uuid4())
