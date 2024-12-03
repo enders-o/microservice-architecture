@@ -92,7 +92,7 @@ def detect_anomalies():
             elif msg["type"] == "add_friend": 
                 if payload["source_number_of_friends"] > app_config["threshold"]["add_high"]:
                     store_anomaly(payload, 'add', True, app_config["threshold"]["add_high"], payload['source_number_of_friends'])
-                if payload["account_age_days"] < app_config["threshold"]["add_low"]:
+                if payload["source_number_of_friends"] < app_config["threshold"]["add_low"]:
                     store_anomaly(payload, 'add', False, app_config["threshold"]["add_low"],payload['source_number_of_friends'])
     consumer.commit_offsets()
 
