@@ -34,10 +34,10 @@ export default function AnomalyStats(props) {
             {anomalies && anomalies.length > 0 ? (
                 <div>
                     <div>
-                        {props.eventType} Latest Anomaly 
-                        UUID:{anomalies[0].event_id}
-                        {anomalies[0].description}
-                        Detected on {anomalies[0].timestamp}
+                        <h1>{props.eventType} - Latest Anomaly UUID</h1>
+                        <p>{anomalies[0].event_id}</p>
+                        <p>{anomalies[0].description}</p>
+                        <p>Detected on {anomalies[0].timestamp}</p>
                     </div>
                 </div>
             ) : (
