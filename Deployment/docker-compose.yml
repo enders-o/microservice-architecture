@@ -161,6 +161,7 @@ services:
 volumes:
   my-db:
   processing-db:
+  anomaly-db:
 
 networks:
   api.network:
