@@ -45,7 +45,7 @@ def get_find():
             anomalies = json.load(infile)
     except (FileNotFoundError, json.JSONDecodeError):
         logger.warning("No anomalies file found or file is empty")
-        return json.dumps([]), 200
+        return [], 200
         
     anomalies = [a for a in anomalies if a['event_type'] == 'find']
         
@@ -64,7 +64,7 @@ def get_add():
             anomalies = json.load(infile)
     except (FileNotFoundError, json.JSONDecodeError):
         logger.warning("No anomalies file found or file is empty")
-        return json.dumps([]), 200
+        return [], 200
         
     anomalies = [a for a in anomalies if a['event_type'] == 'add']
         
