@@ -1,0 +1,3 @@
+@Library('microservice-architecture@main') _
+python_build('processing', 'processing-svc', 8100)
+

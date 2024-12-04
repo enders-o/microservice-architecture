@@ -1,0 +1,3 @@
+@Library('microservice-architecture@main') _
+python_build('storage', 'storage-svc', 8090)
+
