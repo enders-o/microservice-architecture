@@ -48,15 +48,4 @@ pipeline {
         }
     }
     
-    post {
-        always {
-            cleanWs()
-        }
-        success {
-            echo 'All microservices built successfully!'
-        }
-        failure {
-            echo 'One or more microservices failed to build!'
-        }
-    }
 }
