@@ -1,22 +1,37 @@
 @Library('microservice-architecture@main') _
-    
-node('python_agent') {
-    stage('Build Microservices') {
-        checkout scm
-        dir('Analyzer') {
-            python_lint('analyzer', 'analyzer-svc', 8110)
-        }
 
-        dir('Receiver') {
-            python_lint('receiver', 'receiver-svc', 8080)
-        }
+pipeline {
+    agent { label 'python_agent' }
+    parameters {
+        booleanParam(defaultValue: false, description: 'Deploy the App', name:'DEPLOY')
+    }
+    stages {
+        stage('Build All Services') {
+            steps {
+                script {
+                    checkout scm
+                    
+                    dir('Analyzer') {  
+                        python_build('analyzer', 'analyzer-svc', 8110)()
+                    }
+                    
+                    dir('Receiver') {
+                        python_build('receiver', 'receiver-svc', 8110)()
+                    }
+                    
+                    dir('Processing') {
+                        python_build('processing', 'processing-svc', 8110)()
+                    }
+                    
+                    dir('Storage') {
+                        python_build('storage', 'storage-svc', 8110)()
+                    }
 
-        dir('Processing') {
-            python_lint('processing', 'processing-svc', 8100)
-        }
-
-        dir('Storage') {
-            python_lint('storage', 'storage-svc', 8090)
+                    dir('Anomaly') {
+                        python_build('anomaly', 'anomaly-svc', 8110)()
+                    }
+                }
+            }
         }
     }
 }
