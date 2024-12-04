@@ -16,19 +16,15 @@ pipeline {
                     }
                     
                     dir('Receiver') {
-                        python_build('receiver', 'receiver-svc', 8110)()
+                        python_build('receiver', 'receiver-svc', 8080)()
                     }
                     
                     dir('Processing') {
-                        python_build('processing', 'processing-svc', 8110)()
+                        python_build('processing', 'processing-svc', 8100)()
                     }
                     
                     dir('Storage') {
-                        python_build('storage', 'storage-svc', 8110)()
-                    }
-
-                    dir('Anomaly') {
-                        python_build('anomaly', 'anomaly-svc', 8110)()
+                        python_build('storage', 'storage-svc', 8090)()
                     }
                 }
             }
