@@ -1,6 +1,6 @@
 @Library('microservice-architecture@main') _
 pipeline {
-    agent { label python_agent }
+    agent { label 'python_agent' }
     
     stages {
         stage('Build Microservices') {
