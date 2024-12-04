@@ -20,4 +20,3 @@ node('python_agent') {
         }
     }
 }
-}
