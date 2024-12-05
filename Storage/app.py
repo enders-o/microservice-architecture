@@ -1,49 +1,55 @@
+import os
+import yaml
+import json
+import logging
+import logging.config
+import datetime
 import connexion
-from connexion import NoContent
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import and_
+from pykafka import KafkaClient  
+from pykafka import KafkaClient
+from pykafka.common import OffsetType
+from threading import Thread
+
 from base import Base
 from join_queue import JoinQueue
 from add_friend import AddFriend
 
-import yaml
-import logging
-import logging.config
-
-import datetime
-
-import json
-from pykafka import KafkaClient  
-from pykafka import KafkaClient  
-from pykafka.common import OffsetType 
-from threading import Thread 
-
-
-import os
 logger = logging.getLogger('basicLogger')
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
     logger.info("In Test Environment")
-    app_conf_file = "/config/app_conf.yml"
-    log_conf_file = "/config/log_conf.yml"
+    APP_CONF_FILE = "/config/app_conf.yml"
+    LOG_CONF_FILE = "/config/log_conf.yml"
 else:
     logger.info("In Dev Environment")
-    app_conf_file = "app_conf.yml"
-    log_conf_file = "log_conf.yml"
-with open(app_conf_file, 'r') as f:
+    APP_CONF_FILE = "app_conf.yml"
+    LOG_CONF_FILE = "log_conf.yml"
+with open(APP_CONF_FILE, 'r') as f:
     app_config = yaml.safe_load(f.read())
 # External Logging Configuration
-with open(log_conf_file, 'r') as f:
-    log_config = yaml.safe_load(f.read()) 
+with open(LOG_CONF_FILE, 'r') as f:
+    log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
-logger.info("App Conf File: %s" % app_conf_file)
-logger.info("Log Conf File: %s" % log_conf_file)
+logger.info("App Conf File: %s" % APP_CONF_FILE)
+logger.info("Log Conf File: %s" % LOG_CONF_FILE)
 
-logger.info(f"connecting to DB. Hostname:{app_config['datastore']['hostname']}, Port:{app_config['datastore']['port']}")
+logger.info(f"""
+            Connecting to DB.
+            Hostname: {app_config['datastore']['hostname']}, 
+            Port: {app_config['datastore']['port']}
+            """)
 # https://docs.sqlalchemy.org/en/20/core/pooling.html
-DB_ENGINE = create_engine(f"mysql+pymysql://{app_config['datastore']['user']}:{app_config['datastore']['password']}@{app_config['datastore']['hostname']}:{app_config['datastore']['port']}/{app_config['datastore']['db']}",pool_size=20,pool_recycle=300,pool_pre_ping=True)
+DB_ENGINE = create_engine(f"""
+                          mysql+pymysql://{app_config['datastore']['user']}:{app_config['datastore']['password']}
+                          @{app_config['datastore']['hostname']}:{app_config['datastore']['port']}
+                          /{app_config['datastore']['db']}""",
+                          pool_size=20,
+                          pool_recycle=300,
+                          pool_pre_ping=True)
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String
 from base import Base
 import datetime
 
@@ -14,10 +14,13 @@ class AddFriend(Base):
     friend_number_of_friends = Column(Integer, nullable=False)
     date_created = Column(String(100), nullable=False)
 
-    def __init__(self, trace_id, source_user_id, source_number_of_friends, friend_user_id, friend_number_of_friends) -> None:
+    def __init__(self, 
+                 trace_id, 
+                 source_user_id, source_number_of_friends, 
+                 friend_user_id, friend_number_of_friends) -> None:
         self.trace_id = trace_id
         self.source_user_id = source_user_id
-        self.source_number_of_friends = source_number_of_friends 
+        self.source_number_of_friends = source_number_of_friends
         self.friend_user_id = friend_user_id
         self.friend_number_of_friends = friend_number_of_friends
         self.date_created = datetime.datetime.now()
