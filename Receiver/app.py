@@ -1,14 +1,12 @@
-import connexion
 import os.path
 import json
+import logging
+import logging.config
+import connexion
 import datetime
 from connexion import NoContent
 
-import requests
-
 import yaml
-import logging
-import logging.config
 import uuid
 
 from pykafka import KafkaClient
