@@ -60,6 +60,7 @@ def query(url) -> list:
 def populate_stats():
     """ Periodically update stats """
     try:
+        logger.info("Assignment 3")
         logger.info("Start Periodic Processing")
         if os.path.isfile(app_config['datastore']['filename']):
             with open(app_config['datastore']['filename'],"r") as outfile:
