@@ -53,8 +53,7 @@ services:
     volumes:
     - my-db:/var/lib/mysql
   receiver:
-    build:
-      context: ../Receiver
+    image: receiver:latest
     depends_on:
       kafka:
         condition: service_healthy
@@ -68,8 +67,7 @@ services:
     networks:
       - "api.network"
   storage:
-    build:
-      context: ../Storage
+    image: storage:latest
     depends_on:
       db:
         condition: service_started
@@ -85,8 +83,7 @@ services:
     networks:
       - "api.network"
   processing:
-    build:
-      context: ../Processing
+    image: processing:latest
     depends_on:
       - storage
     environment:
@@ -100,8 +97,7 @@ services:
     networks:
       - "api.network"
   analyzer:
-    build:
-      context: ../Analyzer
+    image: analyzer:latest
     depends_on:
       - kafka
       - storage
