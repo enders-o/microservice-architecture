@@ -53,7 +53,7 @@ services:
     volumes:
     - my-db:/var/lib/mysql
   receiver:
-    image: receiver:latest
+    image: enderso/receiver:latest
     depends_on:
       kafka:
         condition: service_healthy
@@ -67,7 +67,7 @@ services:
     networks:
       - "api.network"
   storage:
-    image: storage:latest
+    image: enderso/storage:latest
     depends_on:
       db:
         condition: service_started
@@ -83,7 +83,7 @@ services:
     networks:
       - "api.network"
   processing:
-    image: processing:latest
+    image: enderso/processing:latest
     depends_on:
       - storage
     environment:
@@ -97,7 +97,7 @@ services:
     networks:
       - "api.network"
   analyzer:
-    image: analyzer:latest
+    image: enderso/analyzer:latest
     depends_on:
       - kafka
       - storage
