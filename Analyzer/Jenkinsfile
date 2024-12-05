@@ -1,3 +1,2 @@
-@Library('microservice-architecture@main') _
+@Library('microservice-architecture@main')_
 python_lint('analyzer', 'analyzer-svc', 8110)
-
