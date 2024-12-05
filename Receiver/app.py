@@ -33,8 +33,8 @@ with open(LOG_CONF_FILE, 'r', encoding='utf-8') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
-logger.info(f"App Conf File: {APP_CONF_FILE}")
-logger.info(f"Log Conf File: {LOG_CONF_FILE}")
+logger.info("App Conf File: %s " % APP_CONF_FILE)
+logger.info("Log Conf File: %s " % LOG_CONF_FILE)
 
 # KAFKA CLIENT STARTUP
 client = KafkaClient(hosts=f"{app_config['events']['hostname']}:{app_config['events']['port']}")
@@ -64,7 +64,7 @@ def join_queue(body):
             "payload": body
            }
     msg_str = json.dumps(msg)
-    logger.info(f"Sending event: {msg_str}")
+    logger.info("Sending event: %s "% msg_str)
     producer.produce(msg_str.encode('utf-8'))
     return NoContent, 201
 
@@ -92,7 +92,7 @@ def add_friend(body):
             "payload": body
             }
     msg_str = json.dumps(msg)
-    logger.info(f"Sending event: {msg_str}")
+    logger.info("Sending event: %s "% msg_str)
     producer.produce(msg_str.encode('utf-8'))
     return NoContent, 201
 
