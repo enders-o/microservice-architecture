@@ -1,2 +1,2 @@
 @Library('ci_functions@main') _
-python_lint('analyzer', 'analyzer-svc', 8110)
+python_lint('analyzer', 'analyzer-svc', 8110, 'Analyzer')
