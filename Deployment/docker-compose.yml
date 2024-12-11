@@ -138,6 +138,7 @@ services:
     volumes:
       - /home/ubuntu/config/check:/config
       - /home/ubuntu/logs:/logs
+      - check-db:/data
     ports:
       - "8130"
     networks:
@@ -175,6 +176,7 @@ volumes:
   my-db:
   processing-db:
   anomaly-db:
+  check-db:
 
 networks:
   api.network:
