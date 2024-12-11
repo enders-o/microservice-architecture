@@ -43,13 +43,7 @@ logger.info(f"""
             Port: {app_config['datastore']['port']}
             """)
 # https://docs.sqlalchemy.org/en/20/core/pooling.html
-DB_ENGINE = create_engine(f"""
-                          mysql+pymysql://{app_config['datastore']['user']}:{app_config['datastore']['password']}
-                          @{app_config['datastore']['hostname']}:{app_config['datastore']['port']}
-                          /{app_config['datastore']['db']}""",
-                          pool_size=20,
-                          pool_recycle=300,
-                          pool_pre_ping=True)
+DB_ENGINE = create_engine(f"mysql+pymysql://{app_config['datastore']['user']}:{app_config['datastore']['password']}@{app_config['datastore']['hostname']}:{app_config['datastore']['port']}/{app_config['datastore']['db']}",pool_size=20,pool_recycle=300,pool_pre_ping=True)
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
@@ -57,7 +51,8 @@ def get_event_stats():
     try:
         session = DB_SESSION()
         add = session.query(AddFriend).count()
-        join =session.query(JoinQueue).count()
+        join = session.query(JoinQueue).count()
+        session.close()
         stats = {'num_join_queue': join, 'num_add_friend': add}
         return stats, 200
     except:
