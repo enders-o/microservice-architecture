@@ -12,6 +12,18 @@ tags:
   - name: developers
     description: Operations available to regular developers
 paths:
+  /check:
+    get:
+      tags:
+        - admins
+      summary: checks the health of the receiver 
+      operationId: app.get_check
+      description: service is healthy if this services returns a response
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Not OK
   /party/find:
     post:
       tags:
