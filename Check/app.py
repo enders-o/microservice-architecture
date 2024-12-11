@@ -106,15 +106,6 @@ app.add_api("openapi.yaml",
             base_path="/check",
             strict_validation=True,
            validate_responses=True)
-if "TARGET_ENV" in os.environ or os.environ["TARGET_ENV"] == "test":
-    app.add_middleware(
-            CORSMiddleware,
-            position=MiddlewarePosition.BEFORE_EXCEPTION,
-            allow_origins=["*"],
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
-            )
 
 if __name__ == "__main__":
     init_scheduler()
