@@ -55,7 +55,10 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
 def get_event_stats():
     try:
-        stats = {'num_join_queue': 0, 'num_add_friend': 0}
+        session = DB_SESSION()
+        add = session.query(AddFriend).count()
+        join =session.query(JoinQueue).count()
+        stats = {'num_join_queue': join, 'num_add_friend': add}
         return stats, 200
     except:
         logger.info("No messages found")
