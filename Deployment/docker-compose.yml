@@ -125,6 +125,20 @@ services:
       - "8120"
     networks:
       - "api.network"
+  check:
+    build:
+      context: ../Check
+    depends_on:
+      - receiver
+      - storage
+      - processing
+      - analyzer
+    environment:
+      - TARGET_ENV=test
+    ports:
+      - "8130"
+    networks:
+      - "api.network"
   dashboard-ui:
     build: 
       context: ../Dashboard

@@ -84,4 +84,4 @@ if "TARGET_ENV" in os.environ or os.environ["TARGET_ENV"] == "test":
 
 if __name__ == "__main__":
     init_scheduler()
-    app.run(port=8100, host="0.0.0.0")
+    app.run(port=8130, host="0.0.0.0")
