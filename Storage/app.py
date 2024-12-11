@@ -53,6 +53,13 @@ DB_ENGINE = create_engine(f"""
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
+def get_event_stats():
+    try:
+        stats = {'num_join_queue': 0, 'num_add_friend': 0}
+        return stats, 200
+    except:
+        logger.info("No messages found")
+    return { "message": "Not Found"}, 404
 def process_messages():
     """ Process event messages """
     hostname = "%s:%d" % (app_config["events"]["hostname"],

@@ -12,6 +12,20 @@ tags:
   - name: developers
     description: Operations available to regular developers
 paths:
+  /stats:
+    get:
+      tags:
+        - admins
+      summary: gets event stats
+      operationId: app.get_event_stats
+      description: gets event stats
+      responses:
+        '200':
+          description: Successfully returned stats 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stats'
   /party/find:
     get:
       tags:
@@ -141,3 +155,14 @@ components:
           type: integer
           format: int32
           example: 18 
+    Stats:
+      required:
+      - num_join_queue
+      - num_add_friend
+      properties:
+        num_join_queue:
+          type: integer
+          example: 100
+        num_add_friend:
+          type: integer
+          example: 100
