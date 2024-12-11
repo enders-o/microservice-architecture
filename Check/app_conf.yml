@@ -2,10 +2,10 @@ version: 1
 datastore:
   filename: data.json
 services:
-  receiver: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/receiver
-  storage: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/storage
-  processing: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/processing
-  analyzer: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/analyzer
+  receiver: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/receiver/check
+  storage: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/storage/stats
+  processing: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/processing/stats
+  analyzer: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/analyzer/stats
 scheduler:
   period_sec: 10
 timeout:
