@@ -53,12 +53,35 @@ def check_services():
         response = requests.get(STORAGE_URL, timeout=TIMEOUT)
         if response.status_code == 200:
             storage_json = response.json()
-            storage_status = f"Storage has {storage_json['num_join_queue']} BP and {storage_json['num_add_friend']} HR events"
+            storage_status = f"Storage has {storage_json['num_join_queue']} join queue and {storage_json['num_add_friend']} add friend events"
             logger.info("Storage is Healthy")
         else:
             logger.info("Storage returning non-200 response")
     except (Timeout, ConnectionError):
         logger.info("Storage is Not Available")
+    processing_status = "Unavailable"
+    try:
+        response = requests.get(PROCESSING_URL, timeout=TIMEOUT)
+        if response.status_code == 200:
+            processing_json = response.json()
+            processing_status = f"Processing has {processing_json['num_joinq']} join queue and {processing_json['num_add']} add friend events"
+            logger.info("Processing is Healthy")
+        else:
+            logger.info("Processing returning non-200 response")
+    except (Timeout, ConnectionError):
+        logger.info("Processing is unavailable")
+    analyzer_status = "Unavailable"
+    try:
+        response = requests.get(ANALYZER_URL, timeout=TIMEOUT)
+        if response.status_code == 200:
+            analyzer_json = response.json()
+            analyzer_status = f"Processing has {analyzer_json['num_add_friend']} join queue and {analyzer_json['num_join_queue']} add friend events"
+            logger.info("Analyzer is Healthy")
+        else:
+            logger.info("Analyzer Processing returning non-200 response")
+    except (Timeout, ConnectionError):
+        logger.info("Analyzer is unavailable")
+
 
 def init_scheduler():
     sched = BackgroundScheduler(daemon=True)
