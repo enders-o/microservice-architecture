@@ -1,0 +1,11 @@
+version: 1
+services:
+  receiver: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/receiver
+  storage: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/storage
+  processing: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/processing
+  analyzer: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/analyzer
+scheduler:
+  period_sec: 10
+timeout:
+  period_sec: 10
+
