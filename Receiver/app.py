@@ -40,6 +40,11 @@ logger.info("Log Conf File: %s " % LOG_CONF_FILE)
 client = KafkaClient(hosts=f"{app_config['events']['hostname']}:{app_config['events']['port']}")
 topic = client.topics[str.encode(app_config['events']['topic'])]
 producer = topic.get_sync_producer()
+# GET REQUESTS
+def get_check():
+    logger.info('Get check')
+    return NoContent, 200
+
 # POST REQUESTS
 def join_queue(body):
     """
