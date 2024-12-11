@@ -37,6 +37,15 @@ PROCESSING_URL = app_config['services']['processing']
 ANALYZER_URL = app_config['services']['analyzer']
 TIMEOUT =app_config['timeout']['period_sec']
 
+def get_checks():
+    try:
+        with open(app_config['datastore']['filename'], 'r') as infile:
+            data = json.load(infile)
+    except (FileNotFoundError, json.JSONDecodeError):
+        logger.warning("No stats file found or file is empty")
+        return 404
+    return data, 200
+
 def check_services():
     """ Called periodically """
     receiver_status = "Unavailable"
@@ -91,7 +100,6 @@ def check_services():
             }
     with open(app_config['datastore']['filename'], "w") as outfile:
             json.dump(data, outfile, indent=2)
-    return data, 200
 
 
 def init_scheduler():

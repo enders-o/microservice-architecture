@@ -8,7 +8,7 @@ info:
 paths:
   /check:
     get:
-      operationId: app.get_checks
+      operationId: app.check_services
       responses:
         "200":
           description: OK - stats returned
