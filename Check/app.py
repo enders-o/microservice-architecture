@@ -2,6 +2,8 @@ import connexion
 #from connexion import NoContent
 # had to pip install apscheduler
 from apscheduler.schedulers.background  import BackgroundScheduler
+
+import os
 import requests
 from requests.exceptions import Timeout, ConnectionError
 import json
@@ -81,6 +83,15 @@ def check_services():
             logger.info("Analyzer Processing returning non-200 response")
     except (Timeout, ConnectionError):
         logger.info("Analyzer is unavailable")
+    data = {
+            "receiver": receiver_status,
+            "storage": storage_status,
+            "processing": processing_status,
+            "analyzer": analyzer_status,
+            }
+    with open(app_config['datastore']['filename'], "w") as outfile:
+            json.dump(data, outfile, indent=2)
+    return data, 200
 
 
 def init_scheduler():

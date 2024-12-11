@@ -1,4 +1,6 @@
 version: 1
+datastore:
+  filename: data.json
 services:
   receiver: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/receiver
   storage: http://ec2-44-230-66-254.us-west-2.compute.amazonaws.com/storage
@@ -8,4 +10,3 @@ scheduler:
   period_sec: 10
 timeout:
   period_sec: 10
-
